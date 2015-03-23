@@ -24,6 +24,7 @@ public class PushPlugin extends CordovaPlugin {
 
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
+	public static final String CANCELALL = "cancelAll";
 	public static final String EXIT = "exit";
 
 	private static CordovaWebView gWebView;
@@ -84,7 +85,13 @@ public class PushPlugin extends CordovaPlugin {
 			Log.v(TAG, "UNREGISTER");
 			result = true;
 			callbackContext.success();
-		} else {
+		} else if (CANCELALL.equals(action)) {
+
+			final NotificationManager notificationManager = (NotificationManager) cordova.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancelAll();
+			result = true;
+			callbackContext.success();
+	  } else {
 			result = false;
 			Log.e(TAG, "Invalid action : " + action);
 			callbackContext.error("Invalid action : " + action);
